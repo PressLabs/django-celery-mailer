@@ -19,7 +19,10 @@ TASK_CONFIG.update(CONFIG)
 @task(**TASK_CONFIG)
 def send_email(message, **kwargs):
 
-    message = deserialize(message)
+    serializer_type = getattr(settings, 'CELERY_TASK_SERIALIZER', None)
+    if serializer_type == 'json':
+        message = deserialize(message)
+
     logger = send_email.get_logger()
     conn = get_connection(backend=BACKEND, **kwargs.pop('_backend_init_kwargs', {}))
 

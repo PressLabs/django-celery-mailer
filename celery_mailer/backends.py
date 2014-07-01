@@ -16,10 +16,13 @@ class CeleryEmailBackend(BaseEmailBackend):
         kwargs['_backend_init_kwargs'] = self.init_kwargs
 
         for msg in email_messages:
+            serializer_type = getattr(settings, 'CELERY_TASK_SERIALIZER', None)
+            if serializer_type == 'json':
+                msg = serialize(msg)
             if getattr(settings, 'USE_CELERY', True):
-                results.append(send_email.delay(serialize(msg), **kwargs))
+                results.append(send_email.delay(msg, **kwargs))
             else:
-                result = send_email(serialize(msg), **kwargs)
+                result = send_email(msg, **kwargs)
                 if result:
                     results.append(result)
 
