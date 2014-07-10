@@ -2,8 +2,6 @@ from django.conf import settings
 from django.core.mail.backends.base import BaseEmailBackend
 
 from celery_mailer.tasks import send_email
-from celery_mailer.serializer import serialize
-
 
 class CeleryEmailBackend(BaseEmailBackend):
 
@@ -16,13 +14,11 @@ class CeleryEmailBackend(BaseEmailBackend):
         kwargs['_backend_init_kwargs'] = self.init_kwargs
 
         for msg in email_messages:
-            serializer_type = getattr(settings, 'CELERY_TASK_SERIALIZER', None)
-            if serializer_type == 'json':
-                msg = serialize(msg)
+            del msg.connection
             if getattr(settings, 'USE_CELERY', True):
-                results.append(send_email.delay(msg, **kwargs))
+                results.append(send_email.delay(msg.__dict__, **kwargs))
             else:
-                result = send_email(msg, **kwargs)
+                result = send_email(msg.__dict__, serializer='yaml', **kwargs)
                 if result:
                     results.append(result)
 
