@@ -18,7 +18,7 @@ class CeleryEmailBackend(BaseEmailBackend):
             if getattr(settings, 'USE_CELERY', True):
                 results.append(send_email.delay(msg.__dict__, **kwargs))
             else:
-                result = send_email(msg.__dict__, serializer='yaml', **kwargs)
+                result = send_email(msg.__dict__, **kwargs)
                 if result:
                     results.append(result)
 
