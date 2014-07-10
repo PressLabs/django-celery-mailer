@@ -27,8 +27,8 @@ def send_email(msg, **kwargs):
         logger.debug('Successfully sent email message to %r.' % message.to)
         return result
     except Exception, e:
-         #Catching all exceptions b/c it could be any number of things
-         #depending on the backend
+        # Catching all exceptions b/c it could be any number of things
+        # depending on the backend
         logger.warning('Failed to send email message to %r, retrying.' % message.to)
 
         if getattr(settings, 'USE_CELERY', True):
