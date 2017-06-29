@@ -15,6 +15,7 @@ class CeleryEmailBackend(BaseEmailBackend):
 
         for msg in email_messages:
             del msg.connection
+
             if getattr(settings, 'USE_CELERY', True):
                 results.append(send_email.delay(msg.__dict__, **kwargs))
             else:

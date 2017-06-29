@@ -28,10 +28,10 @@ setup(
     license='BSD',
     packages=['celery_mailer'],
     install_requires=[
-        'django-celery>=2.2.0',
+        'celery',
     ],
     tests_require=[
-        'django>=1.3,<1.5',
+        'django',
     ],
     test_suite='test_project.test_runner.runtests',
     classifiers=(
