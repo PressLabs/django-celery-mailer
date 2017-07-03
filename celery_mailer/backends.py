@@ -3,6 +3,7 @@ from django.core.mail.backends.base import BaseEmailBackend
 
 from celery_mailer.tasks import send_email
 
+
 class CeleryEmailBackend(BaseEmailBackend):
 
     def __init__(self, fail_silently=False, **kwargs):
