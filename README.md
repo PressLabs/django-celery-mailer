@@ -1,4 +1,4 @@
-# django-celery-mailer
+# django-celery-mailer [![Build Status](https://travis-ci.org/PressLabs/django-celery-mailer.svg?branch=master)](https://travis-ci.org/PressLabs/django-celery-mailer)
 
 Django email backend that utilizes Celery for background execution. This is a 
 fork of django-celery-email, with additional inspiration from django-mailer.
